@@ -258,7 +258,7 @@ static struct archos_tsp_config tsp_config __initdata = {
 		.x_plate_ohms = 230,
 		.pressure_max = 500,
 		.inversion_flags =  X_INV | XY_SWAP,
-		.filter_factor = 3
+		.filter_type = 1
 	},
 	.rev[3] = {
 		.irq_gpio = { .nb = 24, .mux_cfg = AE7_3430_GPIO24 },
@@ -266,7 +266,7 @@ static struct archos_tsp_config tsp_config __initdata = {
 		.x_plate_ohms = 230,
 		.pressure_max = 500,
 		.inversion_flags =  X_INV | XY_SWAP,
-		.filter_factor = 3
+		.filter_type = 1
 	},
 	.rev[4] = {
 		.irq_gpio = { .nb = 24, .mux_cfg = AE7_3430_GPIO24 },
@@ -274,7 +274,7 @@ static struct archos_tsp_config tsp_config __initdata = {
 		.x_plate_ohms = 230,
 		.pressure_max = 500,
 		.inversion_flags =  X_INV | XY_SWAP,
-		.filter_factor = 3
+		.filter_type = 1
 	},
 	.rev[5] = {
 		.irq_gpio = { .nb = 24, .mux_cfg = AE7_3430_GPIO24 },
@@ -282,7 +282,7 @@ static struct archos_tsp_config tsp_config __initdata = {
 		.x_plate_ohms = 230,
 		.pressure_max = 500,
 		.inversion_flags =  X_INV | XY_SWAP,
-		.filter_factor = 3
+		.filter_type = 1
 	},
 	.rev[6] = {
 		.irq_gpio = { .nb = 24, .mux_cfg = AE7_3430_GPIO24 },
@@ -299,7 +299,6 @@ static struct archos_tsp_config tsp_config __initdata = {
 		.x_plate_ohms = 250,
 		.pressure_max = 900,
 		.inversion_flags =  X_INV | XY_SWAP,
-		.filter_factor = 3,
 		.filter_type = 1
 	},
 	.rev[8] = {
@@ -308,7 +307,6 @@ static struct archos_tsp_config tsp_config __initdata = {
 		.x_plate_ohms = 250,
 		.pressure_max = 900,
 		.inversion_flags =  X_INV | XY_SWAP,
-		.filter_factor = 3,
 		.filter_type = 1
 	},
 	.rev[9] = {
@@ -317,7 +315,6 @@ static struct archos_tsp_config tsp_config __initdata = {
 		.x_plate_ohms = 250,
 		.pressure_max = 900,
 		.inversion_flags =  X_INV | XY_SWAP,
-		.filter_factor = 3,
 		.filter_type = 1
 	},
 };

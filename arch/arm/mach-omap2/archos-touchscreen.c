@@ -115,48 +115,26 @@ static int ads7846_filter(void *filter_data, int data_idx, int *val)
 	return ADS7846_FILTER_OK;
 }
 
-static int ads7846_filter_type1(void *filter_data, int data_idx, int *val)
+static int simple_filter(void *filter_data, int data_idx, int *val)
 {
 	struct ads7846_filter_data *filt = filter_data;
-	int filter_len = FILTER_LEN;
-	int delta;
-	int data;
-	
-	/* we only filter X/Y */
-	if (data_idx >= NUM_DATA_IDX)
-		return ADS7846_FILTER_OK;
-	
+	int filter_len = 4;
+
 	if (filt->cnt[data_idx] == 0) {
-		// don't send first value while delta is too high, 
-		if (( abs(filt->accu[data_idx] - *val ) > 50)){
-			filt->accu[data_idx] = *val;
-			return ADS7846_FILTER_IGNORE;
-		} else 
-			data = *val;
-	} else {
-		data = filt->accu[data_idx];
-
-		/* filter weighted by movement speed */
-		delta = abs(data - (*val));
-
-		if (delta > 1000){	// high delta probably not valid filtering it 
-			filt->accu[data_idx] = *val;
-			return ADS7846_FILTER_IGNORE;
-		} else if (delta > 200)
-			filter_len = 1;
-		else if (delta > 100)
-			filter_len = 2;
-
-		filter_len *= filter_factor;	
-		data = (data * (filter_len-1) + *val) / (filter_len);
-	
-		pr_debug("ads7846_filter_type1: %p %i %i -> %i\n", 
-			filter_data, data_idx, *val, data);
-	
-		*val = data;
+		filt->cnt[data_idx]++;
+		return ADS7846_FILTER_IGNORE;
 	}
 
-	filt->accu[data_idx] = data;
+	if (filter_len > filt->cnt[data_idx])
+		filter_len = filt->cnt[data_idx];
+	else
+		filter_len = filter_len;
+	
+	if (filter_len) {
+		*val = (filt->accu[data_idx] * (filter_len-1) + *val) / (filter_len);
+	}
+
+	filt->accu[data_idx] = *val;
 	filt->cnt[data_idx]++;
 	
 	return ADS7846_FILTER_OK;
@@ -225,8 +203,9 @@ int __init ads7846_dev_init(void)
 	if (tsp_cfg->rev[hardware_rev].filter_factor != 0)
 		filter_factor = tsp_cfg->rev[hardware_rev].filter_factor;
 
-	if (tsp_cfg->rev[hardware_rev].filter_type != 0) {
-		tsc2046_config.filter = &ads7846_filter_type1;
+	switch (tsp_cfg->rev[hardware_rev].filter_type) {
+		case 1: tsc2046_config.filter = simple_filter; break;
+		default: break;
 	}
 
 	if (tsp_cfg->rev[hardware_rev].bus_num == 2) {

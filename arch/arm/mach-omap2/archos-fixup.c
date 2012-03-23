@@ -34,14 +34,19 @@ void __init fixup_archos(struct machine_desc *desc,
 		// hdd boards
 		*cmdline = command_line[1];
 	} else if (machine_is_archos_a28()) {
+		// 3611 boards
 		*cmdline = command_line[2];
 	} else if (machine_is_archos_a35()) {
+		// 3611 boards with bigger screen...
 		*cmdline = command_line[3];
 	} else if (machine_is_archos_a101it() || machine_is_archos_a70s2()) {
+		// Bigger Screen
 		*cmdline = command_line[4];
 	} else if (machine_is_archos_a32() || machine_is_archos_a32sd() || machine_is_archos_a35dm() || machine_is_archos_a35de()) {
+		// Small screen and only TV out
 		*cmdline = command_line[5];
 	} else if (machine_is_archos_a70h2()) {
+		// hdd boards with bigger screen...
 		*cmdline = command_line[6];
 	} else {
 		printk("%s : NO COMMAND LINE FOUND!", __FUNCTION__);
